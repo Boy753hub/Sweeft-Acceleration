@@ -1,0 +1,26 @@
+.Header{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.mainLink{
+    cursor: pointer;
+    font-weight: 600;
+}
+.mainLink:hover{
+    color: rgb(54, 54, 54);
+}
+.historyLink{
+    cursor: pointer;
+    font-weight: 600;
+}
+.historyLink:hover{
+    color: rgb(54, 54, 54);
+}
