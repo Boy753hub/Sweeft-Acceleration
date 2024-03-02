@@ -14,3 +14,16 @@ export interface Photo {
     views?: number;
     downloads?: number;
 }
+
+export interface SearchedPhotos extends Photo {
+    total: number;
+    total_pages: number;
+    results: Photo[];
+}
+
+export interface PhotoSearchResult {
+    loading: boolean;
+    error: boolean;
+    Photos: string[];
+    hasMore: boolean;
+  }

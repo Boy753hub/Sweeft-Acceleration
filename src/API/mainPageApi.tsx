@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Photo } from "../interface/photo.interface";
+import { Photo, SearchedPhotos } from "../interface/photo.interface";
 
 const BASE_PATH = 'https://api.unsplash.com/'
 
@@ -21,3 +21,13 @@ export const getPopularPhotos = async (params: Record<string, any>): Promise<Pho
         throw error; 
     }
 };
+
+export const getPhotosBySearchTerm = async (params: Record<string, any>): Promise<SearchedPhotos> => {
+    try {
+        const response: AxiosResponse<SearchedPhotos> = await API.get('/search/photos', { params });
+        return response.data;
+    } catch (error) {
+        console.error("error fetching photos by search term", error);
+        throw error;
+    }
+}

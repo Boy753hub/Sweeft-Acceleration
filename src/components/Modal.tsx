@@ -28,6 +28,9 @@ const Modal: FC<ModalProps> = ({ value, setOpen }) => {
             className={styles.image}
           />
         </div>
+        <div className={styles.desc}>
+          <p>likes: {value.likes}</p>
+        </div>
       </div>
     </div>
   );
