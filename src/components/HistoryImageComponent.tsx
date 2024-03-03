@@ -37,7 +37,6 @@ const HistoryImageComponent = ({ value }: { value: string }) => {
     );
   
     useEffect(() => {
-      // Clear photos when the value changes
       setPhotos([]);
       setSearchPageNumber(1);
     }, [value]);

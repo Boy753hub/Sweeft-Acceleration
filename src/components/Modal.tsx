@@ -1,8 +1,9 @@
-import React, { FC, MouseEvent } from 'react';
+import React, { FC, MouseEvent, useEffect, useState } from 'react';
 import styles from '../styles/Modal.module.css';
 import x from '../assets/X.png';
-import { Photo } from '../interface/photo.interface';
+import { Photo, PhotoStatistics } from '../interface/photo.interface';
 import { FaHeart } from 'react-icons/fa';
+import { getPhotoStatisticts } from '../API/mainPageApi';
 
 interface ModalProps {
   value: Photo;
@@ -10,9 +11,29 @@ interface ModalProps {
 }
 
 const Modal: FC<ModalProps> = ({ value, setOpen }) => {
+  const [imageStats, setImageStats] = useState<PhotoStatistics[] | undefined>(undefined);
+  const params = {client_id: `${import.meta.env.VITE_REACT_APP_API_KEY}`,}
+
   const closeModal = () => {
     setOpen((last) => !last);
   };
+
+  useEffect(() => {
+    const fetchPhotoStatistics = async () => {
+      try {
+        const photoStatistics = await getPhotoStatisticts(value.id, params);
+    
+        // Assuming the structure of the response matches the provided example
+        setImageStats(photoStatistics);
+        console.log(photoStatistics);
+      } catch (error) {
+        console.error('Error fetching photo statistics:', error);
+      }
+    };
+    
+
+    fetchPhotoStatistics();
+  }, [value.id]);
 
   const stopPropagation = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -30,9 +51,15 @@ const Modal: FC<ModalProps> = ({ value, setOpen }) => {
           />
         </div>
         <div className={styles.desc}>
-            <p>
-              Likes: {value.likes} <FaHeart style={{ color: 'red', marginLeft: '5px' }} />
-            </p>
+          <p>
+            Likes: {value.likes} <FaHeart style={{ color: 'red', marginLeft: '5px' }} />
+          </p>
+          <p>
+            Views: {imageStats?.views.total}
+          </p>
+          <p>
+            Downloads: {imageStats?.downloads.total}
+          </p>
         </div>
       </div>
     </div>

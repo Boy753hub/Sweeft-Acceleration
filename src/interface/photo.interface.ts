@@ -27,3 +27,16 @@ export interface PhotoSearchResult {
     Photos: string[];
     hasMore: boolean;
   }
+
+export interface PhotoStatistics {
+    id: string
+    views: {
+        total: number;
+    };
+    downloads: {
+        total: number;
+    };
+    likes: {
+        total: number;
+    };
+}
