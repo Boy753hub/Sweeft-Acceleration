@@ -2,12 +2,17 @@ import axios, { Canceler } from "axios";
 import { useEffect, useState } from "react";
 import { Photo } from "../interface/photo.interface";
 
-export default function usePopularPhotos(pageNumber: number) {
+export default function usePopularPhotos(query:string, pageNumber: number) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [hasMore, setHasMore] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (pageNumber === 1) {
+      setPhotos([]);
+    }
+  }, [query, pageNumber]);
 
   useEffect(() => {
     setLoading(true);
@@ -29,8 +34,6 @@ export default function usePopularPhotos(pageNumber: number) {
         setPhotos((prevPhotos) => [...prevPhotos, ...res.data]);
         setHasMore(res.data.length > 0);
         setLoading(false);
-        console.log('api called');
-        console.log(res.data.results);
       })
       .catch((e) => {
         if (axios.isCancel(e)) return;
@@ -39,7 +42,7 @@ export default function usePopularPhotos(pageNumber: number) {
       });
 
     return () => cancel();
-  }, [ pageNumber]);
+  }, [query,pageNumber]);
 
   return { loading, error, photos, hasMore };
 }

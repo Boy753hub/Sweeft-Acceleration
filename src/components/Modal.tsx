@@ -2,6 +2,7 @@ import React, { FC, MouseEvent } from 'react';
 import styles from '../styles/Modal.module.css';
 import x from '../assets/X.png';
 import { Photo } from '../interface/photo.interface';
+import { FaHeart } from 'react-icons/fa';
 
 interface ModalProps {
   value: Photo;
@@ -29,7 +30,9 @@ const Modal: FC<ModalProps> = ({ value, setOpen }) => {
           />
         </div>
         <div className={styles.desc}>
-          <p>likes: {value.likes}</p>
+            <p>
+              Likes: {value.likes} <FaHeart style={{ color: 'red', marginLeft: '5px' }} />
+            </p>
         </div>
       </div>
     </div>

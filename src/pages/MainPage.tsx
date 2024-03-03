@@ -15,8 +15,9 @@ const MainPage: React.FC = () => {
 
   const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
 
-  const { loading, error, photos: images, hasMore } = useSearchPhotos(searchTerm, searchedPageNumber);
-  const { loading: popularLoading, error: popularError, photos: popularImages, hasMore: popularHasMore } = usePopularPhotos(popularPageNumber);
+
+  const { loading, photos: images, hasMore } = useSearchPhotos(searchTerm, searchedPageNumber);
+  const { loading: popularLoading, photos: popularImages, hasMore: popularHasMore } = usePopularPhotos(searchTerm, popularPageNumber);
 
   const searchedObserver = useRef<IntersectionObserver | null>(null);
   const popularObserver = useRef<IntersectionObserver | null>(null);
@@ -24,17 +25,19 @@ const MainPage: React.FC = () => {
   const lastSearchedPhotoElementRef = useCallback(
     (node: HTMLDivElement | null) => {
       if (loading) return;
-
+  
       if (searchedObserver.current) searchedObserver.current.disconnect();
-
+  
       searchedObserver.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          setSearchPageNumber((prevPageNumber) => prevPageNumber + 1);
+          setSearchPageNumber((prevPageNumber) => {
+            return prevPageNumber + 1;
+          });
         }
       });
-
+  
       if (node) searchedObserver.current.observe(node);
-
+  
       return () => {
         if (searchedObserver.current) {
           searchedObserver.current.disconnect();
@@ -43,21 +46,23 @@ const MainPage: React.FC = () => {
     },
     [loading, hasMore]
   );
-
+  
   const lastPopularPhotoElementRef = useCallback(
     (node: HTMLDivElement | null) => {
       if (popularLoading) return;
-
+  
       if (popularObserver.current) popularObserver.current.disconnect();
-
+  
       popularObserver.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && popularHasMore) {
-          setPopularPageNumber((prevPageNumber) => prevPageNumber + 1);
+          setPopularPageNumber((prevPageNumber) => {
+            return prevPageNumber + 1;
+          });
         }
       });
-
+  
       if (node) popularObserver.current.observe(node);
-
+  
       return () => {
         if (popularObserver.current) {
           popularObserver.current.disconnect();
@@ -66,6 +71,7 @@ const MainPage: React.FC = () => {
     },
     [popularLoading, popularHasMore]
   );
+  
 
   useEffect(() => {
     setPhotos(images);
@@ -75,15 +81,16 @@ const MainPage: React.FC = () => {
     try {
       let fetchedPhotos: Photo[];
       if (term.trim() === '') {
-        fetchedPhotos = popularImages;
+        fetchedPhotos = [...popularImages];
       } else {
-        fetchedPhotos = images;
+        fetchedPhotos = [...images];
       }
       setPhotos(fetchedPhotos);
     } catch (error) {
       console.error('Error fetching photos', error);
     }
   }, [images, popularImages]);
+  
 
   useEffect(() => {
     fetchPhotos(searchTerm);

@@ -1,0 +1,34 @@
+.history{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.historyElements{
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.historyElemet{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-size: large;
+    font-weight: 600;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s ease-in-out;
+}
+.historyElemet:hover {
+    color: navy;
+  }
